@@ -1,7 +1,11 @@
-import React from "react";
+import TwoColumnLayout from "@/components/Layout/TwoColumnLayout";
 
-const page = () => {
-  return <div>Welcome to 200Books </div>;
-};
-
-export default page;
+export default function HomePage() {
+  return (
+    <TwoColumnLayout>
+      <h2>All Books</h2>
+      <p>Here’s the list of books that match your filters.</p>
+      {/* You can map through book data here */}
+    </TwoColumnLayout>
+  );
+}

@@ -25,7 +25,7 @@ body {
   color: var(--txtColor, #333);
   background-color: var(--bgColor, #f4f4f4);
   line-height: var(--lineHeight, 1.6);
-  padding: var(--bodyPadding, 0.5rem 0);
+  padding: var(--bodyPadding, 0);
   display: flex;
   flex-direction: column;
 }
@@ -88,7 +88,7 @@ header {
 
 main {
   flex: 1;
-  padding: 10px;
+  /* padding: 10px; */
   margin-top: var(--headerHeight, 50px);
 }
 
