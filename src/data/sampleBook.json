@@ -1,0 +1,17 @@
+{
+  "id": "test001",
+  "title": "Sample Book Title",
+  "author": ["Jane Doe"],
+  "genre": ["Self Help"],
+  "year": 2024,
+  "language": "English",
+  "rating": 4.5,
+  "pages": 220,
+  "coverImage": "/covers/sample.jpg",
+  "description": "This is a test upload book.",
+  "tags": ["motivation", "growth"],
+  "recommendedBy": "Shankar Krishnasamy",
+  "publisher": "Sample Publisher",
+  "isbn": "1234567890",
+  "link": "https://example.com/sample-book"
+}

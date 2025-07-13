@@ -1,7 +1,8 @@
 import "./index.css";
 import Header from "@/components/Layout/Header";
 import Main from "@/components/Layout/Main";
-import Footer from "@/components/Layout/Footer";
+// import Footer from "@/components/Layout/Footer"; // commented as requested
+import Sidebar from "@/components/Layout/Sidebar/";
 
 export const metadata = {
   title: "200Books",
@@ -13,7 +14,10 @@ export default function RootLayout({ children }) {
     <html lang='en'>
       <body>
         <Header />
-        <Main>{children}</Main>
+        <div style={{ display: "flex", minHeight: "100vh" }}>
+          <Sidebar />
+          <Main>{children}</Main>
+        </div>
         {/* <Footer /> */}
       </body>
     </html>
