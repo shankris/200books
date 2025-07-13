@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import "./variables.css";
+
+/* ========================================
+   Reset & Universal Styles
+======================================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--headerHeight);
+}
+
+body {
+  min-height: 100vh;
+  width: 100%;
+  font-size: var(--fontSize, 16px);
+  font-family: var(--fontStack, 'open sans', sans-serif);
+  color: var(--txtColor, #333);
+  background-color: var(--bgColor, #f4f4f4);
+  line-height: var(--lineHeight, 1.6);
+  padding: var(--bodyPadding, 0.5rem 0);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========================================
+   Headings & Typography
+======================================== */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--accentColor, #333);
+  font-weight: var(--headingFontWeight, 400);
+  line-height: var(--headingLineHeight, 1.2);
+  padding: var(--headingPadding, 10px 0);
+  margin: var(--headingMargin, 10px);
+  text-wrap: pretty;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 26px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+p, li, figcaption {
+  text-wrap: pretty;
+  max-width: 65ch;
+}
+
+a {
+  color: var(--accentColor, #0070f3);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+/* ========================================
+   Layout Elements
+======================================== */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--headerHeight, 50px);
+  padding: 10px;
+  background-color: var(--headerColor, #fff);
+  color: var(--txtColor, #333);
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+main {
+  flex: 1;
+  padding: 10px;
+  margin-top: var(--headerHeight, 50px);
+}
+
+footer {
+  padding: 10px;
+  background-color: var(--footerColor, #eee);
+  height: var(--footerHeight, 50px);
+}
+
+/* ========================================
+   Media, Tables, Forms
+======================================== */
+img,
+picture,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+textarea,
+input,
+button,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+hr {
+  height: 0;
+  border: 0 none;
+  border-top: 1px dotted #777;
+  margin: 30px 0 20px 0;
+}
+
+section {
+  scroll-snap-align: center;
+}
+
+
+
+/* 
+
+<body>
+  <header>...</header>
+
+  <main>
+    {children}
+  </main>
+
+  <footer>
+    &copy; 2025 YourSite
+  </footer>
+</body>
+
+*/

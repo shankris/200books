@@ -1,0 +1,49 @@
+:root {
+  --fontStack: 'Open Sans', sans-serif;
+  --fontSize: 16px;
+  --lineHeight: 1.6;
+  --bodyPadding: 10px;
+
+  --headerHeight: 50px;
+  --footerHeight: 50px;
+
+  --headingFontWeight: 400;
+  --headingLineHeight: 1.2;
+  --headingPadding: 10px 0;
+  --headingMargin: 10px;
+
+
+
+  /* Light Theme */
+
+  --accentColor: #083363;
+  --txtColor: #222;
+  --txtSecondaryColor: #666;
+
+  --bgColor: #f4f4f4;
+  --bgColorLight: #ffffff;
+  --bgColorAlt: #f9f9f9;
+
+  --headerColor: #eee;
+  --footerColor: #eee;
+
+}
+
+
+
+/* Dark Theme */
+[data-theme="dark"] {
+
+  --accentColor: #60a5fa;
+  --txtColor: #f5f5f5;
+  --txtSecondaryColor: #aaa;
+
+  --bgColor: #121212;
+  --bgColorLight: #1e1e1e;
+  --bgColorAlt: #2a2a2a;
+
+  --headerColor: #eee;
+  --footerColor: #333;
+
+
+}
