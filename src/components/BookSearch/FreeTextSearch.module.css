@@ -1,0 +1,53 @@
+.wrapper {
+  position: relative;
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.status {
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.dropdown {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.item:hover,
+.active {
+  background-color: #f0f0f0;
+}
+
+.thumb {
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: #555;
+}

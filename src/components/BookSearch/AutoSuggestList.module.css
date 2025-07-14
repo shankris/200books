@@ -1,0 +1,36 @@
+/* 📁 components/FreeTextSearch/AutoSuggestList.module.css */
+
+.dropdown {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.item:hover,
+.active {
+  background-color: #f5f5f5;
+}
+
+.thumb {
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: #555;
+}

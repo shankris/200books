@@ -1,34 +1,6 @@
 .container {
+  max-width: 800px;
+  margin: 2rem auto;
   padding: 1rem;
   font-family: sans-serif;
-}
-
-.preview {
-  background: #f4f4f4;
-  padding: 1rem;
-  border-radius: 8px;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  margin-bottom: 1rem;
-}
-
-.button {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #60a5fa;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-}
-
-.statusSuccess {
-  color: green;
-  margin-top: 0.5rem;
-}
-
-.statusError {
-  color: red;
-  margin-top: 0.5rem;
 }
