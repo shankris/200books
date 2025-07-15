@@ -1,14 +1,19 @@
 .wrapper {
   position: relative;
-  max-width: 100%;
+  width: 1000px;
+  max-width: 90%;
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .input {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border-radius: 6px;
+  width: 550px;
+  padding: 10px 34px 10px 40px;
+  /* space for icons */
+  font-size: 14px;
+  color: #525252;
+  border-radius: 3px;
   border: 1px solid #ccc;
 }
 
@@ -50,4 +55,44 @@
 .meta {
   font-size: 0.85rem;
   color: #555;
+}
+
+.clearButton {
+  position: absolute;
+  right: 0.5rem;
+  top: 6px;
+  right: 10px;
+  height: 26px;
+  width: 26px;
+  background: #eee;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #555555;
+}
+
+.clearButton:hover {
+  color: #0a1150;
+}
+
+.status {
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 500px;
+  max-width: 90%;
+}
+
+
+.searchIcon {
+  position: absolute;
+  left: 0.65rem;
+  color: #333333;
+  pointer-events: none;
 }

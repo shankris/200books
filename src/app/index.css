@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import "./variables.css";
+/* @import "./globals.css" */
 
 /* ========================================
    Reset & Universal Styles
@@ -38,7 +39,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--headingFontWeight, 400);
   line-height: var(--headingLineHeight, 1.2);
   padding: var(--headingPadding, 10px 0);
-  margin: var(--headingMargin, 10px);
+  margin: var(--headingMargin, '0 0 10px 0');
   text-wrap: pretty;
   text-wrap: balance;
 }
@@ -150,3 +151,21 @@ section {
 </body>
 
 */
+
+
+
+/* Relocate later */
+.pageHeadding {
+  font-size: 24px;
+  font-weight: 300;
+  font-family: 'open sans', sans-serif;
+  margin: 20px 0 0 0;
+  padding: 0;
+}
+
+.subHead {
+  font-size: 14px;
+  /* font-weight: 300; */
+  margin: 2px 0 30px 0;
+  color: #9b9b9b;
+}

@@ -1,9 +1,10 @@
 /* 📁 components/FreeTextSearch/AutoSuggestList.module.css */
 
 .dropdown {
+  width: 500px;
   list-style: none;
   padding: 0;
-  margin-top: 0.5rem;
+  /* margin-top: 0.5rem; */
   border: 1px solid #ddd;
   border-radius: 6px;
   max-height: 300px;
@@ -14,7 +15,7 @@
 .item {
   display: flex;
   gap: 1rem;
-  padding: 0.75rem;
+  padding: 4px;
   border-bottom: 1px solid #eee;
   cursor: pointer;
 }

@@ -1,0 +1,60 @@
+.card {
+  display: flex;
+  gap: 24px;
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 400px;
+  height: 600px;
+  flex-shrink: 0;
+}
+
+.lowRes,
+.highRes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  top: 0;
+  left: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.lowRes {
+  opacity: 1;
+}
+
+.highRes {
+  opacity: 0;
+}
+
+.highRes.visible {
+  opacity: 1;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.authors,
+.genres,
+.description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
