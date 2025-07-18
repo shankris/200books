@@ -1,109 +1,161 @@
-.wrapper {
-  position: relative;
-  width: 1000px;
-  max-width: 90%;
-  margin-bottom: 1rem;
+/* Top-level container */
+.search {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
 }
 
-.input {
-  width: 550px;
-  padding: 10px 34px 10px 40px;
-  /* space for icons */
-  font-size: 14px;
-  color: #525252;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-}
-
-.status {
-  font-style: italic;
-  margin-top: 0.25rem;
-}
-
-.dropdown {
-  list-style: none;
-  margin: 0.25rem 0 0;
-  padding: 0;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: #fff;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.item {
-  display: flex;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-}
-
-.item:hover,
-.active {
-  background-color: #f0f0f0;
-}
-
-.thumb {
-  width: 50px;
-  height: auto;
-  object-fit: contain;
-}
-
-.meta {
-  font-size: 0.85rem;
-  color: #555;
-}
-
-.clearButton {
-  position: absolute;
-  right: 0.5rem;
-  top: 6px;
-  right: 10px;
-  height: 26px;
-  width: 26px;
-  background: #eee;
-  border-radius: 3px;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  color: #555555;
-}
-
-.clearButton:hover {
-  color: #0a1150;
-}
-
-.status {
-  margin-top: 0.5rem;
-  font-style: italic;
-}
-
+/* Wrapper for the input + search button */
 .inputWrapper {
-  position: relative;
   display: flex;
   align-items: center;
-  width: 500px;
-  max-width: 90%;
+  gap: 0.5rem;
+  position: relative;
 }
 
-
-.searchIcon {
-  position: absolute;
-  left: 0.65rem;
-  color: #333333;
-  pointer-events: none;
+/* Search input field */
+.input {
+  flex: 1;
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-/* FreeTextSearch.module.css */
+/* Search button */
 .searchButton {
-  padding: 6px 12px;
-  background-color: #0077cc;
+  padding: 0.5rem 1rem;
+  background-color: #0055cc;
   color: white;
   border: none;
   border-radius: 4px;
-  margin-left: 8px;
   cursor: pointer;
+}
+
+.searchButton:hover {
+  background-color: #0044aa;
+}
+
+/* Search icon on the left */
+.searchIcon {
+  position: absolute;
+  left: 0.5rem;
+  pointer-events: none;
+  color: #777;
+}
+
+/* Clear (X) button on the right */
+.clearButton {
+  position: absolute;
+  right: 6rem;
+  cursor: pointer;
+  color: #999;
+}
+
+/* "Searching..." status */
+.status {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #666;
+}
+
+/* List of results */
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Each list item */
+.item {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  border-bottom: 1px solid #eee;
+  background-color: white;
+  cursor: pointer;
+  margin: 2px 0 2px 0
+}
+
+.item:hover {
+  background-color: #f0f8ff;
+}
+
+/* Thumbnail image */
+.thumb {
+  width: 60px;
+  height: 80px;
+  /* 2:3 aspect ratio */
+  object-fit: cover;
+  border-radius: 2px;
+  background-color: #eee;
+  /* optional placeholder */
+}
+
+/* Meta info */
+.meta {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.2;
+  margin: 6px 0 0 0;
+}
+
+/* Layout for results and selected book */
+.body {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.resultsBox {
+  width: 250px;
+  flex-shrink: 0;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.selectedBook {
+  flex: 1;
+  /* background-color: #f8f8f8; */
+  /* padding: 10px; */
+  /* border: 1px solid #ddd; */
+}
+
+.searchResultTitle {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #203060;
+}
+
+.sourceSelector {
+  padding: 0.4rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  color: #333;
+}
+
+.sourceTag {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+
+@media (max-width: 424px) {
+  .body {
+    flex-direction: column;
+  }
+
+  .resultsBox,
+  .selectedBook {
+    width: 100%;
+    max-width: 100%;
+  }
 }
