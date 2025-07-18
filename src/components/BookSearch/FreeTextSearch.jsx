@@ -1,106 +1,74 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { X, Search } from "lucide-react";
+import { useState } from "react";
+import { Search, X } from "lucide-react";
 import styles from "./FreeTextSearch.module.css";
 import listStyles from "./AutoSuggestList.module.css";
 
 export default function FreeTextSearch({ onSelect }) {
   const [query, setQuery] = useState("");
-  const [debounced, setDebounced] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const containerRef = useRef(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setDebounced(query.trim()), 500);
-    return () => clearTimeout(timer);
-  }, [query]);
-
-  useEffect(() => {
-    if (!debounced) {
-      setResults([]);
-      return;
-    }
+  const handleSearch = async () => {
+    const trimmed = query.trim();
+    if (!trimmed) return;
 
     setLoading(true);
-    fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(debounced)}&maxResults=10`)
-      .then((res) => res.json())
-      .then((data) => {
-        const books = (data.items || []).map((item) => {
-          const info = item.volumeInfo;
+    setResults([]);
 
-          const imageLinks = info.imageLinks || {};
+    try {
+      const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(trimmed)}`);
+      const data = await res.json();
 
-          // Force HTTPS if needed
-          const thumbnail = imageLinks.thumbnail?.replace("http://", "https://") || "";
-          const highResImage = imageLinks.medium?.replace("http://", "https://") || imageLinks.small?.replace("http://", "https://") || "";
+      const books = (data.docs || []).slice(0, 10).map((item) => {
+        const coverId = item.cover_i;
+        return {
+          id: item.key,
+          title: item.title,
+          authors: item.author_name || [],
+          thumbnail: coverId ? `https://covers.openlibrary.org/b/id/${coverId}-S.jpg` : "",
+          highResImage: coverId ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg` : "",
+          genre: item.subject ? item.subject.slice(0, 3) : [],
+          description: `Published in ${item.first_publish_year || "unknown year"}`,
+        };
+      });
 
-          return {
-            id: item.id,
-            title: info.title,
-            authors: info.authors || [],
-            thumbnail: info.imageLinks?.thumbnail || "",
-            highResImage: info.imageLinks?.medium || info.imageLinks?.small || "",
-            genre: info.categories || [],
-            description: info.description || "",
-          };
-        });
-        setResults(books);
-      })
-      .catch((err) => {
-        console.error("Autocomplete failed", err);
-        setResults([]);
-      })
-      .finally(() => setLoading(false));
-  }, [debounced]);
-
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setResults([]);
-      }
-    }
-
-    function handleEscapeKey(e) {
-      if (e.key === "Escape") {
-        setResults([]);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscapeKey);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscapeKey);
-    };
-  }, []);
-
-  const handleKeyDown = (e) => {
-    if (e.key === "ArrowDown") {
-      setActiveIndex((prev) => (prev + 1) % results.length);
-    } else if (e.key === "ArrowUp") {
-      setActiveIndex((prev) => (prev - 1 + results.length) % results.length);
-    } else if (e.key === "Enter" && activeIndex >= 0) {
-      onSelect(results[activeIndex]);
-      setResults([]);
-      setQuery("");
+      setResults(books);
+    } catch (error) {
+      console.error("Search failed:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleClear = () => {
     setQuery("");
     setResults([]);
-    setActiveIndex(-1);
+  };
+
+  const handleSelect = async (book) => {
+    try {
+      const res = await fetch(`https://openlibrary.org${book.id}.json`);
+      const data = await res.json();
+
+      const description = typeof data.description === "string" ? data.description : data.description?.value || book.description;
+
+      const genre = data.subjects?.slice(0, 5) || book.genre;
+
+      onSelect({
+        ...book,
+        description,
+        genre,
+      });
+    } catch (err) {
+      console.error("Failed to fetch detailed info", err);
+      onSelect(book); // fallback
+    }
   };
 
   return (
-    <div
-      className={styles.wrapper}
-      ref={containerRef}
-    >
+    <div className={styles.wrapper}>
       <div className={styles.inputWrapper}>
         <Search
           size={18}
@@ -110,11 +78,7 @@ export default function FreeTextSearch({ onSelect }) {
           type='text'
           placeholder='Search books ...'
           value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setActiveIndex(-1);
-          }}
-          onKeyDown={handleKeyDown}
+          onChange={(e) => setQuery(e.target.value)}
           className={styles.input}
         />
         {query && (
@@ -124,21 +88,23 @@ export default function FreeTextSearch({ onSelect }) {
             onClick={handleClear}
           />
         )}
+        <button
+          className={styles.searchButton}
+          onClick={handleSearch}
+        >
+          Search
+        </button>
       </div>
 
       {loading && <p className={styles.status}>Searching...</p>}
 
       {results.length > 0 && (
-        <ul className={listStyles.dropdown}>
-          {results.map((book, idx) => (
+        <ul className={listStyles.list}>
+          {results.map((book) => (
             <li
               key={book.id}
-              className={`${listStyles.item} ${idx === activeIndex ? listStyles.active : ""}`}
-              onClick={() => {
-                onSelect(book); // ✅ send to parent
-                setQuery("");
-                setResults([]);
-              }}
+              className={listStyles.item}
+              onClick={() => handleSelect(book)}
             >
               {book.thumbnail && (
                 <img

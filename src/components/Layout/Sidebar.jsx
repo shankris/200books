@@ -10,10 +10,10 @@ const Sidebar = () => {
       <nav className={styles.navLinks}>
         <ul className={styles.sidebarLinks}>
           <li>
-            <Link href='/upload'>Recommend Books</Link>
+            <Link href='/books'>Home</Link>
           </li>
           <li>
-            <Link href='/books'>View Books</Link>
+            <Link href='/upload'>Recommend Books</Link>
           </li>
         </ul>
       </nav>

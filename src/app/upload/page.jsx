@@ -11,7 +11,7 @@ export default function UploadPage() {
   return (
     <div className={styles.container}>
       <h1 className='pageHeadding'>Recommend Your Favourite Books</h1>
-      <div className='subHead'>Search books by title, author or ISBN</div>
+      <div className='subHead'>Search books by Title, Author or ISBN</div>
 
       <FreeTextSearch onSelect={setSelectedFreeTextBook} />
 

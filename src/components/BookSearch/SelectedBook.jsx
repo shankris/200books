@@ -6,21 +6,27 @@ export default function SelectedBook({ book }) {
 
   if (!book) return null;
 
+  const { title, thumbnail, highResImage, authors = [], genre = [], description } = book;
+
+  console.log("Selected book image URLs", { thumbnail, highResImage });
+
   return (
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
-        {!isHighResLoaded && book.thumbnail && (
+        {/* Show low-res thumbnail first */}
+        {thumbnail && !isHighResLoaded && (
           <img
-            src={book.thumbnail}
-            alt={book.title}
+            src={thumbnail}
+            alt={title}
             className={styles.lowRes}
           />
         )}
 
-        {book.highResImage && (
+        {/* Load high-res image */}
+        {highResImage && (
           <img
-            src={book.highResImage}
-            alt={book.title}
+            src={highResImage}
+            alt={title}
             className={`${styles.highRes} ${isHighResLoaded ? styles.visible : ""}`}
             onLoad={() => setIsHighResLoaded(true)}
           />
@@ -28,17 +34,17 @@ export default function SelectedBook({ book }) {
       </div>
 
       <div className={styles.info}>
-        <h2 className={styles.title}>{book.title}</h2>
+        <h2 className={styles.title}>{title}</h2>
         <p className={styles.authors}>
-          <strong>Author(s):</strong> {book.authors.join(", ")}
+          <strong>Author(s):</strong> {authors.join(", ") || "Unknown"}
         </p>
         <p className={styles.genres}>
-          <strong>Genre(s):</strong> {book.genre.join(", ")}
+          <strong>Genre(s):</strong> {genre.join(", ") || "N/A"}
         </p>
         <p className={styles.description}>
           <strong>Description:</strong>
           <br />
-          {book.description || "No description available."}
+          {description || "No description available."}
         </p>
       </div>
     </div>

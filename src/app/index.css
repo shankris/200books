@@ -157,15 +157,15 @@ section {
 /* Relocate later */
 .pageHeadding {
   font-size: 24px;
-  font-weight: 300;
+  font-weight: 400;
   font-family: 'open sans', sans-serif;
   margin: 20px 0 0 0;
   padding: 0;
 }
 
 .subHead {
-  font-size: 14px;
-  /* font-weight: 300; */
+  font-size: 16px;
+  font-weight: 300;
   margin: 2px 0 30px 0;
-  color: #9b9b9b;
+  color: #949494;
 }
