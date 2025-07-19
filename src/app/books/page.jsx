@@ -37,7 +37,6 @@ export default function BooksPage() {
   const isAdmin = useIsAdmin(); // ✅
 
   const [editingBook, setEditingBook] = useState(null); // holds book to edit
-  const [editForm, setEditForm] = useState({ title: "", author: "", category: "" });
   const [showModal, setShowModal] = useState(false);
 
   console.log("Logged in user:", user?.email);
@@ -116,9 +115,10 @@ export default function BooksPage() {
             setShowModal(false);
             setEditingBook(null);
           }}
-          onSave={() => {
-            // Optionally refresh list here
-            location.reload(); // or re-fetch books
+          onSave={(updatedBook) => {
+            setBooks((prevBooks) => prevBooks.map((b) => (b.id === updatedBook.id ? { ...b, ...updatedBook } : b)));
+            setShowModal(false);
+            setEditingBook(null);
           }}
         />
       )}

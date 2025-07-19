@@ -15,32 +15,60 @@
 .modal {
   background-color: #fff;
   border-radius: 8px;
-  padding: 1.5rem;
-  width: 100%;
-  max-width: 400px;
+  padding: 20px 30px;
+  width: 90%;
+  max-width: 800px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 98%;
+  margin: 0 auto;
+  max-height: 95%;
+  width: 900px;
+  Height: 600px;
 }
 
-h3.head3 {
-  margin-top: 0;
-  margin-bottom: 1.25rem;
-  font-size: 1.25rem;
-  text-align: center;
+.splitModal {
+  display: flex;
+  gap: 14px;
 }
 
-.input {
+.previewArea {
+  width: 200px
+}
+
+.formArea {
+  flex: 1;
+}
+
+.thumbnailPreview {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
-  padding: 0.6rem;
-  font-size: 0.95rem;
-  border: 1px solid #ccc;
+  height: auto;
+}
+
+.thumbnailPreview img {
   border-radius: 4px;
-  box-sizing: border-box;
+  object-fit: cover;
+}
+
+.formSection {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.head3 {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+  text-align: left;
 }
 
 .labelGroup {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .label {
@@ -50,59 +78,96 @@ h3.head3 {
   color: #333;
 }
 
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
 .actions {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   margin-top: 1.5rem;
+}
+
+.leftActions,
+.rightActions {
+  display: flex;
   gap: 0.5rem;
 }
 
-/* SAVE button */
-.buttonPrimary {
-  padding: 0.45rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.buttonPrimary:hover {
-  background-color: #0056cc;
-}
-
-/* CANCEL button */
-.button {
+.button,
+.buttonPrimary,
+.deleteButton {
   padding: 0.4rem 0.9rem;
   font-size: 0.9rem;
-  border: 1px solid #ccc;
-  background-color: #f4f4f4;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  border: 1px solid #ccc;
+  background-color: #f4f4f4;
+  min-width: 140px;
 }
 
-.button:hover {
+.button:hover,
+.buttonPrimary:hover,
+.deleteButton:hover {
   background-color: #eaeaea;
 }
 
-/* DELETE button aligned right */
-.deleteButton {
-  margin-left: auto;
-  padding: 0.4rem 0.9rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border: none;
-  background-color: #f44336;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+.buttonPrimary {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
 }
 
-.deleteButton:hover {
-  background-color: #d32f2f;
+.buttonPrimary:hover {
+  background-color: #0056b3;
+}
+
+.deleteButton {
+  background-color: #ffe4e4;
+  /* border-color: #cc0000; */
+  color: #a80000;
+  Width: 300px;
+  max-width: 96%;
+  margin: 20px 0 0 0;
+}
+
+.metaInfo {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #444;
+  text-align: center;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    flex-direction: column;
+  }
+
+  .thumbnailPreview {
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .leftActions,
+  .rightActions {
+    justify-content: center;
+  }
 }
