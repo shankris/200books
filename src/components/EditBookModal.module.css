@@ -2,9 +2,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,37 +13,96 @@
 }
 
 .modal {
-  background: white;
-  padding: 1.5rem;
+  background-color: #fff;
   border-radius: 8px;
+  padding: 1.5rem;
   width: 100%;
   max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+h3.head3 {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  font-size: 1.25rem;
+  text-align: center;
 }
 
 .input {
   width: 100%;
-  margin-bottom: 0.75rem;
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding: 0.6rem;
+  font-size: 0.95rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.labelGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: #333;
 }
 
 .actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
+  align-items: center;
+  margin-top: 1.5rem;
+  gap: 0.5rem;
 }
 
-.button {
-  padding: 0.5rem 1rem;
-  background-color: #0055cc;
-  color: white;
+/* SAVE button */
+.buttonPrimary {
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   border: none;
+  background-color: #007bff;
+  color: white;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.buttonPrimary:hover {
+  background-color: #0056cc;
+}
+
+/* CANCEL button */
+.button {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  background-color: #f4f4f4;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .button:hover {
-  background-color: #0044aa;
+  background-color: #eaeaea;
+}
+
+/* DELETE button aligned right */
+.deleteButton {
+  margin-left: auto;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  background-color: #f44336;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: #d32f2f;
 }

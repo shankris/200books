@@ -73,27 +73,42 @@ export default function BooksPage() {
         {books.map((book) => (
           <li
             key={book.id}
-            className={styles.bookItem}
+            className={styles.bookCard}
           >
-            <strong>{book.title || "Untitled"}</strong>
-            <br />
-            <span>{Array.isArray(book.author) ? book.author.join(", ") : book.author || "Unknown Author"}</span>
-            <br />
-            <em>{book.category || "Uncategorized"}</em>
+            {/* Book Cover */}
+            <div className={styles.coverWrapper}>
+              {book.thumbnail ? (
+                <img
+                  src={book.thumbnail}
+                  alt={book.title}
+                  className={styles.bookCover}
+                />
+              ) : (
+                <div className={styles.bookPlaceholder}>Image coming soon</div>
+              )}
+            </div>
 
-            {isAdmin && (
-              <button
-                onClick={() => {
-                  setEditingBook(book);
-                  setShowModal(true);
-                }}
-              >
-                ✏️ Edit
-              </button>
-            )}
+            {/* Book Info (stacked vertically) */}
+            <div className={styles.bookDetails}>
+              <strong className={styles.bookTitle}>{book.title || "Untitled"}</strong>
+              <div className={styles.bookAuthor}>{Array.isArray(book.author) ? book.author.join(", ") : book.author || "Unknown Author"}</div>
+
+              {isAdmin && (
+                <button
+                  className={styles.editButton}
+                  onClick={() => {
+                    setEditingBook(book);
+                    setShowModal(true);
+                  }}
+                >
+                  Admin Edit
+                </button>
+              )}
+            </div>
           </li>
         ))}
       </ul>
+      {/* Modal Code */}
       {showModal && editingBook && (
         <EditBookModal
           book={editingBook}

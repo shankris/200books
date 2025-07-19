@@ -1,18 +1,28 @@
 import { useState, useEffect } from "react";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import styles from "./EditBookModal.module.css";
 
 export default function EditBookModal({ book, onClose, onSave }) {
-  const [form, setForm] = useState({ title: "", author: "", category: "" });
+  const [form, setForm] = useState({});
 
   useEffect(() => {
     if (book) {
-      setForm({
-        title: book.title || "",
-        author: Array.isArray(book.author) ? book.author.join(", ") : book.author || "",
-        category: book.category || "",
-      });
+      const clone = { ...book };
+      delete clone.id;
+
+      const parsed = {
+        title: clone.title || "",
+        author: Array.isArray(clone.author) ? clone.author.join(", ") : clone.author || "",
+        shortDescription: clone.shortDescription || "",
+        description: clone.description || "",
+        genre: Array.isArray(clone.genre) ? clone.genre.join(", ") : clone.genre || "",
+        subgenre: clone.subgenre || "",
+        thumbnail: clone.thumbnail || "",
+        highResImage: clone.highResImage || "",
+      };
+
+      setForm(parsed);
     }
   }, [book]);
 
@@ -21,13 +31,15 @@ export default function EditBookModal({ book, onClose, onSave }) {
   };
 
   const handleSave = async () => {
+    const updatedData = {
+      ...form,
+      author: form.author.split(",").map((a) => a.trim()),
+      genre: form.genre ? form.genre.split(",").map((g) => g.trim()) : undefined,
+    };
+
     try {
       const ref = doc(db, "books", book.id);
-      await updateDoc(ref, {
-        title: form.title,
-        author: form.author.split(",").map((a) => a.trim()),
-        category: form.category,
-      });
+      await updateDoc(ref, updatedData);
       onSave();
       onClose();
     } catch (error) {
@@ -35,40 +47,59 @@ export default function EditBookModal({ book, onClose, onSave }) {
     }
   };
 
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this book?")) return;
+
+    try {
+      const ref = doc(db, "books", book.id);
+      await deleteDoc(ref);
+      onSave(); // refresh the book list
+      onClose();
+    } catch (error) {
+      console.error("Error deleting book:", error);
+    }
+  };
+
+  const formatLabel = (field) => field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
+
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <h3>Edit Book</h3>
-        <input
-          value={form.title}
-          onChange={(e) => handleChange("title", e.target.value)}
-          placeholder='Title'
-          className={styles.input}
-        />
-        <input
-          value={form.author}
-          onChange={(e) => handleChange("author", e.target.value)}
-          placeholder='Authors (comma-separated)'
-          className={styles.input}
-        />
-        <input
-          value={form.category}
-          onChange={(e) => handleChange("category", e.target.value)}
-          placeholder='Category'
-          className={styles.input}
-        />
+        <h3 className={styles.head3}>Edit Book</h3>
+
+        {["title", "author", "shortDescription", "description", "genre", "subgenre", "thumbnail", "highResImage"].map((field) => (
+          <label
+            key={field}
+            className={styles.labelGroup}
+          >
+            <span className={styles.label}>{formatLabel(field)}</span>
+            <input
+              value={form[field] || ""}
+              onChange={(e) => handleChange(field, e.target.value)}
+              placeholder={formatLabel(field)}
+              className={styles.input}
+            />
+          </label>
+        ))}
+
         <div className={styles.actions}>
           <button
-            onClick={onClose}
+            className={styles.buttonPrimary}
+            onClick={handleSave}
+          >
+            Save
+          </button>
+          <button
             className={styles.button}
+            onClick={onClose}
           >
             Cancel
           </button>
           <button
-            onClick={handleSave}
-            className={styles.button}
+            className={styles.deleteButton}
+            onClick={handleDelete}
           >
-            Save
+            Delete
           </button>
         </div>
       </div>
