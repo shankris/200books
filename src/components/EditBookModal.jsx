@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { useAuth } from "@/lib/useAuth";
 import styles from "./EditBookModal.module.css";
 
 export default function EditBookModal({ book, onClose, onSave }) {
   const [form, setForm] = useState({});
+  const { user } = useAuth();
 
   useEffect(() => {
     if (book) {
@@ -17,7 +19,7 @@ export default function EditBookModal({ book, onClose, onSave }) {
         shortDescription: clone.shortDescription || "",
         description: clone.description || "",
         genre: Array.isArray(clone.genre) ? clone.genre.join(", ") : clone.genre || "",
-        subgenre: clone.subgenre || "",
+        subGenre: Array.isArray(clone.subGenre) ? clone.subGenre.join(", ") : clone.subGenre || "",
         thumbnail: clone.thumbnail || "",
         highResImage: clone.highResImage || "",
       };
@@ -34,7 +36,19 @@ export default function EditBookModal({ book, onClose, onSave }) {
     const updatedData = {
       ...form,
       author: form.author.split(",").map((a) => a.trim()),
-      genre: form.genre ? form.genre.split(",").map((g) => g.trim()) : undefined,
+      genre: form.genre ? form.genre.split(",").map((g) => g.trim()) : [],
+      subGenre: form.subGenre ? form.subGenre.split(",").map((g) => g.trim()) : [],
+      tags: form.tags ? form.tags.split(",").map((t) => t.trim()) : [],
+      pageCount: parseInt(form.pageCount || "0", 10),
+      addDate: form.addDate || new Date().toISOString().slice(0, 10).replace(/-/g, ""),
+      addedBy: user?.displayName || "Unknown User",
+      addedEmail: user?.email || "unknown@example.com",
+      slug:
+        form.slug ||
+        (form.title || "")
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^\w-]+/g, ""),
     };
 
     try {
@@ -53,7 +67,7 @@ export default function EditBookModal({ book, onClose, onSave }) {
     try {
       const ref = doc(db, "books", book.id);
       await deleteDoc(ref);
-      onSave(); // refresh the book list
+      onSave();
       onClose();
     } catch (error) {
       console.error("Error deleting book:", error);
@@ -67,7 +81,7 @@ export default function EditBookModal({ book, onClose, onSave }) {
       <div className={styles.modal}>
         <h3 className={styles.head3}>Edit Book</h3>
 
-        {["title", "author", "shortDescription", "description", "genre", "subgenre", "thumbnail", "highResImage"].map((field) => (
+        {["title", "author", "shortDescription", "description", "genre", "subGenre", "thumbnail", "highResImage"].map((field) => (
           <label
             key={field}
             className={styles.labelGroup}
