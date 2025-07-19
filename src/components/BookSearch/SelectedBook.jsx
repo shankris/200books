@@ -1,83 +1,64 @@
-import { useEffect, useState } from "react";
+import { useAuth } from "@/lib/useAuth";
 import { db } from "@/lib/firebase";
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
-import { useAuth } from "@/lib/useAuth"; // <-- or however you access the user
+import { collection, addDoc } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import LoginModal from "../LoginModal";
 import styles from "./SelectedBook.module.css";
 
 export default function SelectedBook({ book }) {
+  const { user } = useAuth();
   const [isHighResLoaded, setIsHighResLoaded] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const { user } = useAuth(); // Assuming you expose user via context or hook
 
   useEffect(() => {
     setIsHighResLoaded(false);
-    setSaved(false);
   }, [book?.id]);
-
-  if (!book) return null;
-
-  const { title, thumbnail, highResImage, authors = [], genre = [], description, source } = book;
 
   const handleSave = async () => {
     if (!user) {
-      alert("Please log in to save books.");
+      setShowLoginModal(true);
       return;
     }
 
-    setSaving(true);
-
     try {
-      const userBooksRef = collection(db, "users", user.uid, "books");
-
-      // 1. Check for duplicate
-      const q = query(userBooksRef, where("title", "==", title), where("author", "==", authors));
-      const snapshot = await getDocs(q);
-      if (!snapshot.empty) {
-        setSaved(true);
-        alert("This book is already saved.");
-        return;
-      }
-
-      // 2. Save to user subcollection
-      await addDoc(userBooksRef, {
-        title,
-        author: authors,
-        cover: highResImage || thumbnail,
-        category: genre,
-        description,
-        source,
-        public: false,
-        createdAt: new Date().toISOString(),
+      setSaving(true);
+      await addDoc(collection(db, "books"), {
+        title: book.title,
+        authors: book.authors,
+        genre: book.genre,
+        description: book.description,
+        thumbnail: book.thumbnail,
+        userId: user.uid,
+        createdAt: new Date(),
       });
-
-      setSaved(true);
+      alert("✅ Book saved to 200Books!");
     } catch (err) {
-      console.error("Error saving book:", err);
-      alert("Something went wrong.");
+      console.error("Save failed:", err);
     } finally {
       setSaving(false);
     }
   };
 
+  if (!book) return null;
+
   return (
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
-        {!isHighResLoaded && thumbnail && (
+        {!isHighResLoaded && book.thumbnail && (
           <div className={styles.lowResWrapper}>
             <img
-              src={thumbnail}
-              alt={title}
+              src={book.thumbnail}
+              alt={book.title}
               className={styles.lowRes}
             />
             <div className={styles.overlay}>Cover Loading...</div>
           </div>
         )}
-
-        {highResImage && (
+        {book.highResImage && (
           <img
-            src={highResImage}
-            alt={title}
+            src={book.highResImage}
+            alt={book.title}
             className={`${styles.highRes} ${isHighResLoaded ? styles.visible : styles.hidden}`}
             onLoad={() => setIsHighResLoaded(true)}
           />
@@ -85,27 +66,29 @@ export default function SelectedBook({ book }) {
       </div>
 
       <div className={styles.info}>
-        <h2 className={styles.title}>{title}</h2>
+        <h2 className={styles.title}>{book.title}</h2>
         <p className={styles.authors}>
-          <strong>Author(s):</strong> {authors.join(", ") || "Unknown"}
+          <strong>Author(s):</strong> {book.authors.join(", ")}
         </p>
         <p className={styles.genres}>
-          <strong>Genre(s):</strong> {genre.join(", ") || "N/A"}
+          <strong>Genre(s):</strong> {book.genre.join(", ")}
         </p>
         <p className={styles.description}>
           <strong>Description:</strong>
           <br />
-          {description || "No description available."}
+          {book.description}
         </p>
 
         <button
-          className={styles.saveButton}
           onClick={handleSave}
-          disabled={saving || saved}
+          className={styles.saveButton}
+          disabled={saving}
         >
-          {saved ? "✅ Saved!" : saving ? "Saving..." : "Save to 200Books"}
+          {saving ? "Saving..." : user ? "Save to 200Books" : "Login to Save to 200Books"}
         </button>
       </div>
+
+      {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
     </div>
   );
 }
